@@ -77,7 +77,8 @@ module Reek
       attr_reader :smells_found # SMELL: only published for tests
 
       # FIXME: Remove source parameter
-      def initialize(source, config = self.class.default_config)
+      def initialize(source, config = {})
+        config = self.class.default_config.merge(config)
         @source = source
         @config = SmellConfiguration.new(config)
         @smells_found = []
@@ -89,12 +90,9 @@ module Reek
       end
 
       # SMELL: Getter (only used in 1 test)
+      # MvZ: Or use it more :-).
       def enabled?
         config.enabled?
-      end
-
-      def configure_with(new_config)
-        config.merge!(new_config)
       end
 
       def examine(context)

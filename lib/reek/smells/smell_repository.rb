@@ -20,31 +20,21 @@ module Reek
         @source_via    = source_description
         @configuration = configuration
         @smell_types   = smell_types
-
-        configuration.directive_for(source_via).each do |klass, config|
-          configure klass, config
-        end
-      end
-
-      def configure(klass, config)
-        detector = detectors[klass]
-        raise ArgumentError, "Unknown smell type #{klass} found in configuration" unless detector
-        detector.configure_with(config)
       end
 
       def report_on(listener)
         detectors.each_value { |detector| detector.report_on(listener) }
       end
 
-      def examine(scope)
-        smell_listeners[scope.type].each do |detector|
-          detector.examine(scope)
+      def examine(context)
+        smell_listeners[context.type].each do |detector|
+          detector.examine(context)
         end
       end
 
       def detectors
         @initialized_detectors ||= smell_types.map do |klass|
-          { klass => klass.new(source_via) }
+          { klass => klass.new(source_via, source_configuration_for(klass)) }
         end.reduce({}, :merge)
       end
 
@@ -52,6 +42,15 @@ module Reek
 
       private_attr_reader :configuration, :source_via, :smell_types
 
+      def source_configuration_for(klass)
+        source_configuration[klass] || {}
+      end
+
+      def source_configuration
+        configuration.directive_for(source_via)
+      end
+
+      # TODO: Make a method smell_detectors_for(scope)
       def smell_listeners
         @smell_listeners ||= Hash.new { |hash, key| hash[key] = [] }.tap do |listeners|
           detectors.each_value { |detector| detector.register(listeners) }

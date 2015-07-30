@@ -3,10 +3,8 @@ require_relative '../../../lib/reek/smells/too_many_methods'
 require_relative 'smell_detector_shared'
 
 RSpec.describe Reek::Smells::TooManyMethods do
-  let(:detector) { described_class.new(source_name) }
-  let(:source_name) { 'dummy_name' }
-
-  before(:each) { detector.configure_with 'max_methods' => 2 }
+  let(:detector) { described_class.new(source_name, 'max_methods' => 2) }
+  let(:source_name) { 'dummy_source' }
 
   it_should_behave_like 'SmellDetector'
 
