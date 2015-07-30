@@ -117,6 +117,10 @@ module Reek
   # A method definition and a copy of its parameters
   # @private
   class CandidateMethod
+    extend Forwardable
+
+    def_delegators :defn, :line, :name
+
     def initialize(defn_node)
       @defn = defn_node
     end
@@ -124,14 +128,6 @@ module Reek
     def arg_names
       # TODO: Is all this sorting still needed?
       @arg_names ||= defn.arg_names.compact.sort
-    end
-
-    def line
-      defn.line
-    end
-
-    def name
-      defn.name.to_s # BUG: should report the symbols!
     end
 
     private
