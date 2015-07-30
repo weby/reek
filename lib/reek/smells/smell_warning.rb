@@ -90,6 +90,7 @@ module Reek
       end
 
       def wiki_link_hash(warning_formatter)
+        # SMELL:
         if warning_formatter.respond_to?(:explanatory_link)
           { 'wiki_link' => warning_formatter.explanatory_link(smell_detector) }
         else

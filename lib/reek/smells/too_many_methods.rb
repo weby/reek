@@ -42,6 +42,7 @@ module Reek
       #
       def examine_context(ctx)
         max_allowed_methods = value(MAX_ALLOWED_METHODS_KEY, ctx, DEFAULT_MAX_METHODS)
+        # TODO: Only checks instance methods!
         actual = ctx.node_instance_methods.length
         return [] if actual <= max_allowed_methods
         [SmellWarning.new(self,

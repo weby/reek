@@ -122,6 +122,7 @@ module Reek
     end
 
     def arg_names
+      # TODO: Is all this sorting still needed?
       @arg_names ||= defn.arg_names.compact.sort
     end
 

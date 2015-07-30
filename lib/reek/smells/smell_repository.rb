@@ -13,6 +13,7 @@ module Reek
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
+      # FIXME: Why do we need source_description?
       def initialize(source_description: nil,
                      smell_types: self.class.smell_types,
                      configuration: Configuration::AppConfiguration.default)

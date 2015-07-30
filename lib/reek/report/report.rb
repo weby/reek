@@ -20,6 +20,8 @@ module Reek
         @examiners           = []
         @total_smell_count   = 0
         @options             = options
+
+        # TODO: Only used in TextReport and YAMLReport
         @warning_formatter   = options.fetch :warning_formatter, SimpleWarningFormatter.new
         @report_formatter    = options.fetch :report_formatter, Formatter
         @sort_by_issue_count = options.fetch :sort_by_issue_count, false

@@ -76,6 +76,7 @@ module Reek
 
       attr_reader :smells_found # SMELL: only published for tests
 
+      # FIXME: Remove source parameter
       def initialize(source, config = self.class.default_config)
         @source = source
         @config = SmellConfiguration.new(config)
