@@ -14,7 +14,8 @@ RSpec.describe Reek::CLI::WarningCollector do
   context 'with one warning' do
     it 'reports that warning' do
       warning = Reek::Smells::SmellWarning.new(Reek::Smells::FeatureEnvy.new(''),
-                                               context: 'fred',
+                                                context: 'foo',
+                                                source:  'string',
                                                lines:   [1, 2, 3],
                                                message: 'hello')
       collector.found_smell(warning)

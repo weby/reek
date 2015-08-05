@@ -123,6 +123,15 @@ module Reek
         ctx.config_for(self.class)
       end
 
+      def smell_warning(options = {})
+        SmellWarning.new(self,
+                         source: source,
+                         context: options.fetch(:context).full_name,
+                         lines: options.fetch(:lines),
+                         message: options.fetch(:message),
+                         parameters: options.fetch(:parameters, {}))
+      end
+
       protected
 
       attr_writer :smells_found
