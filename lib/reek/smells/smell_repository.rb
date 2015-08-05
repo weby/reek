@@ -34,7 +34,7 @@ module Reek
 
       def detectors
         @initialized_detectors ||= smell_types.map do |klass|
-          { klass => klass.new(source_via, source_configuration_for(klass)) }
+          { klass => klass.new(source_configuration_for(klass)) }
         end.reduce({}, :merge)
       end
 

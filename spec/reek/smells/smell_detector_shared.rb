@@ -22,7 +22,7 @@ RSpec.shared_examples_for 'SmellDetector' do
     let(:klass) { detector.class }
     it 'becomes disabled when disabled' do
       enabled_key = Reek::Smells::SmellConfiguration::ENABLED_KEY
-      disabled_detector = klass.new(detector.source, enabled_key => false)
+      disabled_detector = klass.new(enabled_key => false)
       expect(disabled_detector).not_to be_enabled
     end
   end

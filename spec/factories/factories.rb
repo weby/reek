@@ -15,11 +15,11 @@ FactoryGirl.define do
     skip_create
     transient do
       smell_type 'FeatureEnvy'
+      source 'foo'
     end
-    source 'dummy_file'
 
     initialize_with do
-      ::Reek::Smells.const_get(smell_type).new(source)
+      ::Reek::Smells.const_get(smell_type).new
     end
   end
 

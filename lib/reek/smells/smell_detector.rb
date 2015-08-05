@@ -14,8 +14,6 @@ module Reek
     #
     # @api private
     class SmellDetector
-      attr_reader :source
-
       # The name of the config field that lists the names of code contexts
       # that should not be checked. Add this field to the config for each
       # smell that should ignore this code element.
@@ -76,10 +74,8 @@ module Reek
 
       attr_reader :smells_found # SMELL: only published for tests
 
-      # FIXME: Remove source parameter
-      def initialize(source, config = {})
+      def initialize(config = {})
         config = self.class.default_config.merge(config)
-        @source = source
         @config = SmellConfiguration.new(config)
         @smells_found = []
       end
@@ -124,9 +120,12 @@ module Reek
       end
 
       def smell_warning(options = {})
+        context = options.fetch(:context)
+        exp = context.exp
+        ctx_source = exp.loc.expression.source_buffer.name
         SmellWarning.new(self,
-                         source: source,
-                         context: options.fetch(:context).full_name,
+                         source: ctx_source,
+                         context: context.full_name,
                          lines: options.fetch(:lines),
                          message: options.fetch(:message),
                          parameters: options.fetch(:parameters, {}))
