@@ -160,7 +160,7 @@ module Reek
         end
 
         def uses_param_in_body?
-          nodes = node.body_nodes([:lvar], [:if, :case, :and, :or])
+          nodes = node.body_nodes([:lvar], CONDITIONAL_NODE_TYPES)
           nodes.any? { |lvar_node| lvar_node.var_name == param }
         end
       end
