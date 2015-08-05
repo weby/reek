@@ -13,11 +13,8 @@ module Reek
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
-      # FIXME: Why do we need source_description?
-      def initialize(source_description: nil,
-                     smell_types: self.class.smell_types,
-                     configuration: Configuration::AppConfiguration.default)
-        @source_via    = source_description
+      def initialize(smell_types: self.class.smell_types,
+                     configuration: {})
         @configuration = configuration
         @smell_types   = smell_types
       end
@@ -40,14 +37,10 @@ module Reek
 
       private
 
-      private_attr_reader :configuration, :source_via, :smell_types
+      private_attr_reader :configuration, :smell_types
 
       def source_configuration_for(klass)
-        source_configuration[klass] || {}
-      end
-
-      def source_configuration
-        configuration.directive_for(source_via)
+        configuration[klass] || {}
       end
 
       # TODO: Make a method smell_detectors_for(scope)
