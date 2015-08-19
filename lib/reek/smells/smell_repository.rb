@@ -13,14 +13,14 @@ module Reek
         Reek::Smells::SmellDetector.descendants.sort_by(&:name)
       end
 
-      def initialize(source_description: nil,
+      def initialize(target: nil,
                      smell_types: self.class.smell_types,
                      configuration: Configuration::AppConfiguration.default)
-        @source_via    = source_description
+        @target        = target
         @configuration = configuration
         @smell_types   = smell_types
 
-        configuration.directive_for(source_via).each do |klass, config|
+        configuration.directive_for(target).each do |klass, config|
           configure klass, config
         end
       end
@@ -43,13 +43,13 @@ module Reek
 
       def detectors
         @initialized_detectors ||= smell_types.map do |klass|
-          { klass => klass.new(source_via) }
+          { klass => klass.new(target) }
         end.reduce({}, :merge)
       end
 
       private
 
-      private_attr_reader :configuration, :source_via, :smell_types
+      private_attr_reader :configuration, :target, :smell_types
 
       def smell_listeners
         @smell_listeners ||= Hash.new { |hash, key| hash[key] = [] }.tap do |listeners|

@@ -19,7 +19,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
     context 'when a match was expected' do
       before :each do
         @source = 'the_path/to_a/source_file.rb'
-        expect(@examiner).to receive(:description).and_return(@source)
+        expect(@examiner).to receive(:origin).and_return(@source)
       end
 
       it 'reports the source' do
@@ -97,7 +97,7 @@ RSpec.describe Reek::Spec::ShouldReekOnlyOf do
 
     it 'reports the source when no match was expected' do
       source = 'the_path/to_a/source_file.rb'
-      expect(@examiner).to receive(:description).and_return(source)
+      expect(@examiner).to receive(:origin).and_return(source)
       expect(@matcher.failure_message_when_negated).to match(source)
     end
   end

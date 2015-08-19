@@ -36,10 +36,10 @@ module Reek
     end
 
     #
-    # @return [String] description of the source being analysed
+    # @return [String] origin of the source being analysed
     #
-    def description
-      @description ||= source.description
+    def origin
+      @origin ||= source.origin
     end
 
     #
@@ -68,7 +68,7 @@ module Reek
     private_attr_reader :configuration, :collector, :smell_types, :source
 
     def run
-      smell_repository = Smells::SmellRepository.new(source_description: description,
+      smell_repository = Smells::SmellRepository.new(target: origin,
                                                      smell_types: smell_types,
                                                      configuration: configuration)
       syntax_tree = source.syntax_tree

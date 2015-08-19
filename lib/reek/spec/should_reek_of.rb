@@ -23,11 +23,11 @@ module Reek
       end
 
       def failure_message
-        "Expected #{examiner.description} to reek of #{smell_category}, but it didn't"
+        "Expected #{examiner.origin} to reek of #{smell_category}, but it didn't"
       end
 
       def failure_message_when_negated
-        "Expected #{examiner.description} not to reek of #{smell_category}, but it did"
+        "Expected #{examiner.origin} not to reek of #{smell_category}, but it did"
       end
 
       private
