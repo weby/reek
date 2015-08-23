@@ -85,12 +85,6 @@ module Reek
         self.class.contexts.each { |ctx| hooks[ctx] << self }
       end
 
-      # SMELL: Getter (only used in 1 test)
-      # MvZ: Or use it more :-).
-      def enabled?
-        config.enabled?
-      end
-
       def examine(context)
         return unless enabled_for? context
         return if exception?(context)
@@ -99,16 +93,23 @@ module Reek
         self.smells_found += sm
       end
 
-      def enabled_for?(context)
-        enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
+      def report_on(report)
+        smells_found.each { |smell| smell.report_on(report) }
       end
 
       def exception?(context)
         context.matches?(value(EXCLUDE_KEY, context, DEFAULT_EXCLUDE_SET))
       end
 
-      def report_on(report)
-        smells_found.each { |smell| smell.report_on(report) }
+      protected
+
+      # NOTE: Writers cannot be private in Ruby < 2.2
+      attr_writer :smells_found
+
+      private
+
+      def enabled_for?(context)
+        config.enabled? && config_for(context)[SmellConfiguration::ENABLED_KEY] != false
       end
 
       def value(key, ctx, fall_back)
@@ -130,12 +131,6 @@ module Reek
                          message: options.fetch(:message),
                          parameters: options.fetch(:parameters, {}))
       end
-
-      protected
-
-      attr_writer :smells_found
-
-      private
 
       private_attr_reader :config
     end
