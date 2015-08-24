@@ -48,13 +48,21 @@ module Reek
       #
       def examine_context(ctx)
         return [] unless ctx.references_self?
-        ctx.envious_receivers.map do |name, refs|
+        envious_receivers(ctx).map do |name, refs|
           smell_warning(
             context: ctx,
             lines: refs.map(&:line),
             message: "refers to #{name} more than self",
             parameters: { name: name.to_s, count: refs.size })
         end
+      end
+
+      private
+
+      def envious_receivers(ctx)
+        refs = ctx.refs
+        return {} if refs.self_is_max?
+        refs.most_popular
       end
     end
   end

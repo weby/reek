@@ -9,12 +9,6 @@ module Reek
     class MethodContext < CodeContext
       attr_reader :refs
 
-      # TODO: Move to FeatureEnvy
-      def envious_receivers
-        return {} if refs.self_is_max?
-        refs.most_popular
-      end
-
       def references_self?
         exp.depends_on_instance?
       end
