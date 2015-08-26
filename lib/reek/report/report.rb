@@ -177,9 +177,7 @@ module Reek
         REXML::Element.new('file').tap do |file|
           file.add_attribute 'name', File.realpath(name)
           smells.each do |smell|
-            smell.lines.each do |line|
-              file << error(smell, line)
-            end
+            file << error(smell, smell.lines.first)
           end
         end
       end
