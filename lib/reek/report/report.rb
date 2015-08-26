@@ -126,12 +126,8 @@ module Reek
     # Displays a list of smells in JSON format
     # JSON with empty array for 0 smells
     class JSONReport < Base
-      def show
-        print ::JSON.generate(
-          smells.map do |smell|
-            smell.yaml_hash(warning_formatter)
-          end
-        )
+      def show(out = $stdout)
+        out.print ::JSON.generate smells.map { |smell| warning_formatter.format_hash(smell) }
       end
     end
 

@@ -43,11 +43,10 @@ module Reek
         listener.found_smell(self)
       end
 
-      def yaml_hash(warning_formatter = nil)
+      def yaml_hash
         stringified_params = Hash[parameters.map { |key, val| [key.to_s, val] }]
         core_yaml_hash.
-          merge(stringified_params).
-          merge(wiki_link_hash(warning_formatter))
+          merge(stringified_params)
       end
 
       protected
@@ -89,15 +88,6 @@ module Reek
           'smell_type'     => smell_type,
           'source'         => source
         }
-      end
-
-      def wiki_link_hash(warning_formatter)
-        # SMELL:
-        if warning_formatter.respond_to?(:explanatory_link)
-          { 'wiki_link' => warning_formatter.explanatory_link(smell_detector) }
-        else
-          {}
-        end
       end
     end
   end
