@@ -117,8 +117,8 @@ module Reek
     # Displays a list of smells in YAML format
     # YAML with empty array for 0 smells
     class YAMLReport < Base
-      def show
-        print smells.map(&:yaml_hash).to_yaml
+      def show(out = $stdout)
+        out.print smells.map { |smell| warning_formatter.format_hash(smell) }.to_yaml
       end
     end
 
